@@ -8,7 +8,6 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 20;
@@ -19,7 +18,6 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -39,21 +37,39 @@ function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20"> {/* Increased height */}
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-3" /* Increased spacing */
           >
             <motion.div
-              whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-              transition={{ duration: 0.5 }}
-              className="text-3xl"
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, 360],
+              }}
+              transition={{
+                y: {
+                  repeat: Infinity,
+                  duration: 2,
+                  ease: "easeInOut"
+                },
+                rotate: {
+                  repeat: Infinity,
+                  duration: 4,
+                  ease: "linear"
+                }
+              }}
+              className="w-16 h-25" /* Increased size */
             >
-              🎅
+              <img 
+                src="/1 (1)@2x.png" /* Increased placeholder size */
+                alt="Logo" 
+                className="w-full h-full object-contain"
+              />
             </motion.div>
             <motion.span 
-              className="text-white text-2xl font-bold hidden sm:block"
+              className="text-white text-3xl font-bold hidden sm:block" /* Increased text size */
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
