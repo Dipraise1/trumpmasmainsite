@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Canvas, useFrame } from "@react-three/fiber";
 
 // Custom Icon Components to replace Lucide
 const CustomIcon = ({ type }) => {
@@ -19,7 +19,7 @@ const CustomIcon = ({ type }) => {
       <svg viewBox="0 0 24 24" className="w-12 h-12 fill-current">
         <path d="M20.32 4.37a19.8 19.8 0 0 0-4.93-1.51 13.78 13.78 0 0 0-.64 1.28 18.27 18.27 0 0 0-5.5 0 12.64 12.64 0 0 0-.64-1.28h-.03A19.74 19.74 0 0 0 3.64 4.4 20.26 20.26 0 0 0 .33 18.3a19.95 19.95 0 0 0 6.07 3.03l.08-.09a13.85 13.85 0 0 0 6.02-3.03l-.02.02.02-.02a13.85 13.85 0 0 0 6.02 3.03l.08.09a19.95 19.95 0 0 0 6.07-3.03A20.25 20.25 0 0 0 20.32 4.37zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.09 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.92 0c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.09 2.16 2.42 0 1.34-.95 2.42-2.16 2.42z" />
       </svg>
-    )
+    ),
   };
   return icons[type] || null;
 };
@@ -36,40 +36,34 @@ function ChristmasScene() {
     }
   });
 
-  const spheres = React.useMemo(() => 
-    Array.from({ length: 50 }).map((_, i) => ({
-      position: [
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20
-      ],
-      key: i
-    }))
-  , []);
+  const spheres = React.useMemo(
+    () =>
+      Array.from({ length: 50 }).map((_, i) => ({
+        position: [
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 20,
+        ],
+        key: i,
+      })),
+    []
+  );
 
   return (
     <group ref={groupRef}>
       <mesh position={[0, 1, 0]}>
         <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial 
-          color="#ff0000"
-          metalness={0.9}
-          roughness={0.1}
-        />
+        <meshStandardMaterial color="#ff0000" metalness={0.9} roughness={0.1} />
       </mesh>
-      
+
       <mesh position={[0, 2, 0]}>
         <coneGeometry args={[0.7, 1.5, 32]} />
-        <meshStandardMaterial 
-          color="#2d5a27"
-          roughness={0.8}
-          metalness={0.2}
-        />
+        <meshStandardMaterial color="#2d5a27" roughness={0.8} metalness={0.2} />
       </mesh>
-      
+
       <mesh position={[0, 2.8, 0]}>
         <tetrahedronGeometry args={[0.3]} />
-        <meshStandardMaterial 
+        <meshStandardMaterial
           color="#ffd700"
           emissive="#ffb900"
           emissiveIntensity={2}
@@ -96,11 +90,11 @@ const StatsCard = React.memo(({ label, value, index }) => {
       ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.1 }
     );
-    
+
     if (cardRef.current) {
       observer.observe(cardRef.current);
     }
-    
+
     return () => observer.disconnect();
   }, []);
 
@@ -108,17 +102,17 @@ const StatsCard = React.memo(({ label, value, index }) => {
     <div
       ref={cardRef}
       className={`transform transition-all duration-700 ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
       }`}
       style={{ transitionDelay: `${index * 200}ms` }}
     >
       <div className="relative group">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-green-600 rounded-lg blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
-        <div className="relative bg-black/90 rounded-lg p-8 hover:scale-105 transition-transform duration-300">
-          <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-red-500 to-green-500 bg-clip-text text-transparent">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-green-600 rounded-lg blur opacity-45 group-hover:opacity-100 transition duration-1000"></div>
+        <div className="relative p-8 transition-transform duration-300 rounded-lg bg-[#181818] hover:scale-105">
+          <h3 className="mb-2 text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-green-500 bg-clip-text">
             {value}
           </h3>
-          <p className="text-gray-300 text-lg">{label}</p>
+          <p className="text-lg text-gray-300">{label}</p>
         </div>
       </div>
     </div>
@@ -128,42 +122,65 @@ const StatsCard = React.memo(({ label, value, index }) => {
 // Main Home Component with optimized rendering
 function Home() {
   const [isHovered, setIsHovered] = useState(false);
-  
-  const stats = React.useMemo(() => [
-    { label: 'Total Supply', value: '1,000,000,000' },
-    { label: 'Holders', value: '10,000+(soon)' },
-    { label: 'Rewards Given', value: '$1000+' },
-  ], []);
 
-  const socialLinks = React.useMemo(() => [
-    { type: 'twitter', label: 'Twitter', description: 'Follow us for the latest updates and announcements' },
-    { type: 'telegram', label: 'Telegram', description: 'Join our active community chat' },
-    { type: 'discord', label: 'Discord', description: 'Join our Discord server' }
-  ], []);
+  const stats = React.useMemo(
+    () => [
+      { label: "Total Supply", value: "1,000,000,000" },
+      { label: "Holders", value: "10,000+(soon)" },
+      { label: "Rewards Given", value: "$1000+" },
+    ],
+    []
+  );
+
+  const socialLinks = React.useMemo(
+    () => [
+      {
+        type: "twitter",
+        label: "Twitter",
+        description: "Follow us for the latest updates and announcements",
+      },
+      {
+        type: "telegram",
+        label: "Telegram",
+        description: "Join our active community chat",
+      },
+      {
+        type: "discord",
+        label: "Discord",
+        description: "Join our Discord server",
+      },
+    ],
+    []
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-red-950/20 to-green-950/20">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative flex items-center justify-center min-h-screen">
         <div className="absolute inset-0">
           <Canvas>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={2} />
-            <spotLight position={[0, 10, 0]} angle={0.3} penumbra={1} intensity={2} />
+            <spotLight
+              position={[0, 10, 0]}
+              angle={0.3}
+              penumbra={1}
+              intensity={2}
+            />
             <ChristmasScene />
           </Canvas>
         </div>
 
-        <div className="relative z-10 text-center px-4 mt-16">
+        <div className="relative z-10 px-4 mt-16 text-center">
           <div className="relative">
             <h1
-              className={`text-7xl md:text-9xl font-bold mb-6 transition-all duration-300 ${
-                isHovered ? 'scale-105' : 'scale-100'
+              className={`text-6xl md:text-9xl font-bold mb-6 transition-all duration-300 ${
+                isHovered ? "scale-105" : "scale-100"
               }`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <span className="bg-gradient-to-r from-red-500 via-white to-green-500 bg-clip-text text-transparent">
+              <span className="text-transparent bg-gradient-to-r from-red-500 via-white to-green-500 bg-clip-text">
                 🎄 TrumpMass 🎄
               </span>
             </h1>
@@ -171,26 +188,23 @@ function Home() {
               <div className="absolute -inset-2 bg-gradient-to-r from-red-600 to-green-600 blur-xl opacity-20 -z-10"></div>
             )}
           </div>
-          
-          <p className="text-2xl md:text-3xl mb-12 max-w-3xl mx-auto text-gray-200 leading-relaxed">
-            Spin the wheel and earn TRUMP tokens this Christmas! Join the most festive community in crypto.
+
+          <p className="max-w-3xl mx-auto mb-12 text-xl leading-relaxed text-gray-200 md:text-2xl">
+            Spin the wheel and earn TRUMP tokens this Christmas! Join the most
+            festive community in crypto.
           </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              to="https://trumpmas.vercel.app/"
-              className="relative group"
-            >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-green-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-200">
-              </div>
-              <button className="relative px-12 py-4 bg-black rounded-full text-xl font-bold text-white shadow-2xl hover:shadow-lg transition duration-200">
+
+          <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
+            <Link to="https://trumpmas.vercel.app/" className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-green-500 rounded-full blur opacity-45 group-hover:opacity-100 transition duration-200"></div>
+              <button className="relative px-12 py-4 text-xl font-bold text-white transition duration-200 bg-[#181818] rounded-full shadow-2xl hover:shadow-lg">
                 Start Spinning!
               </button>
             </Link>
 
             <a
               href="#tokenomics"
-              className="text-xl text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+              className="flex items-center gap-2 text-xl text-gray-300 transition-colors hover:text-white"
             >
               Learn More ▼
             </a>
@@ -199,37 +213,38 @@ function Home() {
       </section>
 
       {/* Community Section */}
-      <section className="py-16 sm:py-32 relative">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-red-500 to-green-500 bg-clip-text text-transparent">
+      <section className="relative py-16 sm:py-32">
+        <div className="container px-4 mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-6 text-4xl font-bold text-transparent sm:text-5xl md:text-6xl bg-gradient-to-r from-red-500 to-green-500 bg-clip-text">
               Join Our Community
             </h2>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+            <p className="max-w-2xl mx-auto mb-12 text-lg text-gray-300 sm:text-xl">
               Be part of the most festive and rewarding community in crypto
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid xl:w-[900px] sm:w-[90%] w-full grid-cols-1 gap-8 mx-auto text-white md:grid-cols-3">
             {socialLinks.map(({ type, label, description }) => (
-              <div key={type} className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
-                <a href="#" className="relative flex flex-col items-center p-8 bg-black/90 rounded-lg hover:scale-105 transition-transform duration-300">
-                  <CustomIcon type={type} />
-                  <h3 className="text-xl font-bold text-white mb-2">{label}</h3>
-                  <p className="text-gray-300 text-center">{description}</p>
-                </a>
-              </div>
+              <Link
+                to={""}
+                key={type}
+                className="relative w-full xl:h-[300px] h-[200px] flex flex-col justify-center items-center bg-[#181818] sm:hover:scale-110 hover:scale-105 transition-all duration-300"
+              >
+                <CustomIcon type={type} />
+                <h3 className="mb-2 text-2xl font-bold text-white">{label}</h3>
+                <p className="text-center text-gray-300">{description}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-32 relative">
+      <section className="relative py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-900/10 to-transparent"></div>
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="container px-4 mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {stats.map((stat, index) => (
               <StatsCard key={stat.label} {...stat} index={index} />
             ))}
@@ -245,20 +260,22 @@ function Home() {
 
 // Separated Tokenomics Section for better organization
 const TokenomicsSection = React.memo(() => (
-  <section id="tokenomics" className="py-32 relative">
-    <div className="container mx-auto px-4">
-      <div className="text-center mb-16">
-        <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-red-500 to-green-500 bg-clip-text text-transparent">
+  <section id="tokenomics" className="relative py-24">
+    <div className="container px-4 mx-auto">
+      <div className="mb-16 text-center">
+        <h2 className="mb-6 text-5xl font-bold text-transparent md:text-6xl bg-gradient-to-r from-red-500 to-green-500 bg-clip-text">
           Tokenomics
         </h2>
-        <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+        <p className="max-w-2xl mx-auto text-xl leading-none text-gray-300">
           Understanding the distribution and utility of TRUMP tokens
         </p>
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <TokenDistribution />
-        <div className="h-96 relative">
+
+      <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-3">
+        <div className="w-full lg:col-span-2 col-span-1 sm:p-10 p-6 rounded-2xl bg-[#181818] text-white hover:bg-[#1f1b1b] transition-colors duration-200 cursor-pointer">
+          <TokenDistribution />
+        </div>
+        <div className="relative grid translate-y-0 lg:translate-y-10 h-96">
           <Canvas>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={2} />
@@ -268,16 +285,22 @@ const TokenomicsSection = React.memo(() => (
       </div>
     </div>
   </section>
-  
 ));
 
 // Optimized Token Distribution Component
 const TokenDistribution = React.memo(() => {
-  const data = React.useMemo(() => [
-    { label: 'Liquidity Pool', value: 40, color: 'from-red-600 to-red-400' },
-    { label: 'Team', value: 15, color: 'from-purple-600 to-purple-400' },
-    { label: 'Community Rewards', value: 20, color: 'from-yellow-600 to-yellow-400' },
-  ], []);
+  const data = React.useMemo(
+    () => [
+      { label: "Liquidity Pool", value: 40, color: "from-red-600 to-red-400" },
+      { label: "Team", value: 15, color: "from-purple-600 to-purple-400" },
+      {
+        label: "Community Rewards",
+        value: 20,
+        color: "from-yellow-600 to-yellow-400",
+      },
+    ],
+    []
+  );
 
   return (
     <div className="space-y-6">
@@ -287,22 +310,21 @@ const TokenDistribution = React.memo(() => {
             <span className="font-medium">{item.label}</span>
             <span className="font-bold">{item.value}%</span>
           </div>
-          <div className="h-4 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
+          <div className="h-4 overflow-hidden rounded-full bg-gray-800/50 backdrop-blur-sm">
             <div
               className={`h-full bg-gradient-to-r ${item.color} transform origin-left transition-all duration-1000 group-hover:scale-x-105`}
               style={{ width: `${item.value}%` }}
             />
           </div>
         </div>
-        
       ))}
     </div>
   );
 });
 
 // Add PropTypes for better development experience
-StatsCard.displayName = 'StatsCard';
-TokenDistribution.displayName = 'TokenDistribution';
-TokenomicsSection.displayName = 'TokenomicsSection';
+StatsCard.displayName = "StatsCard";
+TokenDistribution.displayName = "TokenDistribution";
+TokenomicsSection.displayName = "TokenomicsSection";
 
 export default Home;
