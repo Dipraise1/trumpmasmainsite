@@ -195,7 +195,7 @@ function Home() {
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
-            <Link to="https://trumpmas.vercel.app/" className="relative group">
+            <Link to="https://trumpmas.vercel.app" className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-green-500 rounded-full blur opacity-45 group-hover:opacity-100 transition duration-200"></div>
               <button className="relative px-12 py-4 text-xl font-bold text-white transition duration-200 bg-[#181818] rounded-full shadow-2xl hover:shadow-lg">
                 Start Spinning!

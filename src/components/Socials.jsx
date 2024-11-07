@@ -5,7 +5,7 @@ function Socials() {  // Changed from const ChristmasSocials to function Socials
   const [snowflakes, setSnowflakes] = useState([]);
   
   const socials = [
-    { url: 'X.com/Xmaswifftrump', label: 'Twitter', color: 'black' },
+    { url: 'https://x.com/xmaswifftrump/status/1853802818051756453?s=46', label: 'Twitter', color: 'black' },
     { url: ' https://t.me/Trumpmasofficial', label: 'Telegram', color: 'black' },
    
   ];
